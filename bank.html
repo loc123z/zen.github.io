@@ -7,191 +7,121 @@
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --primary-pink: #ff8fa3; --bg-soft: #fff9fa; --shadow: 0 15px 45px rgba(255, 143, 163, 0.2); }
+        :root { --primary-pink: #ff8fa3; --shadow: 0 15px 45px rgba(255, 143, 163, 0.2); }
         
-        /* Hiệu ứng Màn hình chờ */
-        #loader-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-soft); display: flex; justify-content: center; align-items: center; z-index: 9999; transition: 0.6s; }
+        body {
+            margin: 0; padding: 0; font-family: 'Lexend', sans-serif;
+            background: linear-gradient(135deg, #fff9fa, #ffd1dc);
+            background-size: 400% 400%; animation: gradientBG 15s ease infinite;
+            display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow-x: hidden;
+        }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        /* HIỆU ỨNG RƠI */
+        .snow-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        .snowflake { position: absolute; top: -10px; color: var(--primary-pink); user-select: none; pointer-events: none; animation: fall linear infinite; opacity: 0.8; }
+        @keyframes fall { to { transform: translateY(105vh) translateX(20px) rotate(360deg); } }
+
+        #loader-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff9fa; display: flex; justify-content: center; align-items: center; z-index: 9999; transition: 0.6s; }
         .loader-spinner { width: 50px; height: 50px; border: 5px solid #fff; border-top: 5px solid var(--primary-pink); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         .loaded #loader-wrapper { opacity: 0; visibility: hidden; }
 
-        body { background-color: var(--bg-soft); font-family: 'Lexend', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; overflow-x: hidden; }
-        .loaded body { overflow: auto; }
-        
-        /* Tăng chiều rộng container lên 1100px để rộng gần hết màn hình máy tính */
-        .container { width: 95%; max-width: 1100px; padding: 40px 20px; opacity: 0; transition: 1s; }
+        .container { width: 95%; max-width: 1100px; padding: 40px 20px; opacity: 0; transition: 1s; z-index: 10; }
         .loaded .container { opacity: 1; }
 
-        .header-bank { display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; }
-        .btn-back { text-decoration: none; color: var(--primary-pink); font-weight: 600; font-size: 1.1rem; transition: 0.3s; }
-        .btn-back:hover { transform: translateX(-5px); }
-        
-        /* Thẻ bao phủ chính */
-        .donate-card { background: #fff; padding: 50px 40px; border-radius: 50px; box-shadow: var(--shadow); border: 1px solid rgba(255, 255, 255, 0.6); }
-        h2 { color: var(--primary-pink); font-size: 1.8rem; margin-bottom: 40px; font-weight: 600; }
-        
-        /* Grid 3 cột với khoảng cách cực lớn (gap: 50px) */
-        .pay-grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr 1fr; 
-            gap: 50px; 
-            margin-top: 20px;
+        .donate-card { 
+            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            padding: 50px 40px; border-radius: 50px; box-shadow: var(--shadow); border: 1px solid rgba(255,255,255,0.5); text-align: center;
         }
 
+        .pay-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; margin-top: 30px; }
         .pay-item {
-            background: #fff;
-            border: 2px solid #f9f9f9;
-            border-radius: 40px;
-            padding: 30px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.02);
+            background: rgba(255,255,255,0.8); border-radius: 40px; padding: 30px;
+            transition: 0.4s; box-shadow: 0 10px 20px rgba(0,0,0,0.02); border: 1px solid transparent;
         }
-        .pay-item:hover { 
-            border-color: var(--primary-pink); 
-            transform: translateY(-15px); 
-            box-shadow: var(--shadow);
-        }
+        .pay-item:hover { transform: translateY(-15px); box-shadow: var(--shadow); border-color: var(--primary-pink); }
 
-        /* Ảnh QR to rõ */
-        .qr-img { width: 100%; max-width: 250px; border-radius: 25px; margin-bottom: 25px; border: 1px solid #f0f0f0; }
+        .qr-img { width: 100%; max-width: 250px; border-radius: 20px; margin-bottom: 20px; border: 2px solid #fff; transition: 0.3s; }
+        .qr-img:hover { transform: scale(1.05); }
         
-        .bank-name { font-size: 0.9rem; font-weight: 600; color: var(--primary-pink); margin-bottom: 10px; letter-spacing: 1px; }
-        .acc-number { font-size: 1.3rem; font-weight: 600; color: #333; margin-bottom: 20px; letter-spacing: 1px; }
+        .bank-name { font-size: 0.9rem; font-weight: 600; color: var(--primary-pink); letter-spacing: 1px; }
+        .acc-number { font-size: 1.3rem; font-weight: 600; color: #333; margin: 10px 0 20px; display: block; }
+        .btn-copy { background: var(--primary-pink); color: white; border: none; padding: 12px 30px; border-radius: 15px; cursor: pointer; font-weight: 600; transition: 0.3s; width: 100%; max-width: 200px; }
+        .btn-copy:hover { background: #ff4d6d; transform: scale(1.05); }
 
-        /* Nút copy to hơn */
-        .btn-copy { 
-            background: var(--primary-pink); 
-            color: white; 
-            border: none; 
-            padding: 12px 0; 
-            border-radius: 18px; 
-            cursor: pointer; 
-            font-size: 0.9rem; 
-            width: 100%;
-            max-width: 200px;
-            font-weight: 600;
-            transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(255, 143, 163, 0.3);
-        }
-        .btn-copy:hover { background: #ff748c; box-shadow: 0 8px 20px rgba(255, 143, 163, 0.5); }
-        .btn-copy:active { transform: scale(0.95); }
+        #toast { visibility: hidden; background: #333; color: #fff; padding: 15px 30px; border-radius: 50px; position: fixed; left: 50%; bottom: 50px; transform: translateX(-50%); z-index: 10000; }
+        #toast.show { visibility: visible; }
 
-        /* Toast thông báo */
-        #toast { visibility: hidden; background: #333; color: #fff; padding: 15px 35px; border-radius: 50px; position: fixed; left: 50%; bottom: 50px; transform: translateX(-50%); z-index: 10000; font-size: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        #toast.show { visibility: visible; animation: fadeInUp 0.5s; }
-        @keyframes fadeInUp { from { opacity: 0; bottom: 30px; } to { opacity: 1; bottom: 50px; } }
-
-        /* Music control */
-        .music-control { position: fixed; bottom: 40px; left: 40px; z-index: 1000; }
-        .music-btn { width: 60px; height: 60px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow); color: var(--primary-pink); border: 2px solid #fff; font-size: 1.3rem; transition: 0.4s; }
-        .music-btn.playing { animation: rotate 4s linear infinite; }
-        @keyframes rotate { 100% { transform: rotate(360deg); } }
-
-        /* Responsive cho Mobile: Chuyển về 1 cột nếu màn hình quá nhỏ */
-        @media (max-width: 900px) {
-            .pay-grid { gap: 30px; }
-            .acc-number { font-size: 1.1rem; }
-        }
-        @media (max-width: 768px) {
-            .pay-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
-            .donate-card { padding: 30px 20px; }
-            .container { padding: 20px 10px; }
-        }
+        @media (max-width: 900px) { .pay-grid { gap: 20px; } }
+        @media (max-width: 768px) { .pay-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; } }
     </style>
 </head>
 <body>
-
     <div id="loader-wrapper"><div class="loader-spinner"></div></div>
+    <div class="snow-container" id="snowContainer"></div>
 
-    <audio id="bgMusic" loop>
-        <source src="1.mp3" type="audio/mpeg">
-    </audio>
-
-    <div class="music-control">
-        <div class="music-btn" id="musicBtn" onclick="toggleMusic()">
-            <i class="fa-solid fa-music" id="musicIcon"></i>
-        </div>
-    </div>
+    <audio id="bgMusic" loop autoplay><source src="1.mp3" type="audio/mpeg"></audio>
 
     <div class="container">
-        <div class="header-bank">
-            <a href="index.html" class="btn-back"><i class="fa-solid fa-chevron-left"></i> Quay lại trang chủ</a>
-            <span style="font-weight: 600; color: #888; letter-spacing: 2px; font-size: 0.9rem;">THANH TOÁN & DONATE</span>
-            <div style="width: 100px;"></div>
-        </div>
-
         <div class="donate-card">
-            <h2>Ủng hộ cho Lộc (zZz) ❤️</h2>
-            
-            <div class="pay-grid">
-                <!-- MB BANK -->
-                <div class="pay-item">
-                    <img src="https://sf-static.upanhlaylink.com/img/image_2025122410cdee12b3606090ccd3085b91c97a5b.jpg" alt="QR MB Bank" class="qr-img">
-                    <span class="bank-name">NGÂN HÀNG MB BANK</span>
-                    <span class="acc-number">0708770813</span>
-                    <button class="btn-copy" onclick="copyText('0708770813')"><i class="fa-regular fa-copy"></i> Sao chép số</button>
-                </div>
-
-                <!-- MOMO -->
-                <div class="pay-item">
-                    <img src="https://sf-static.upanhlaylink.com/img/image_202512246abf18f8ce626a4ee59dab8e58d5737a.jpg" alt="QR MoMo" class="qr-img">
-                    <span class="bank-name">VÍ ĐIỆN TỬ MOMO</span>
-                    <span class="acc-number">0708770813</span>
-                    <button class="btn-copy" onclick="copyText('0708770813')"><i class="fa-regular fa-copy"></i> Sao chép số</button>
-                </div>
-
-                <!-- VIKKI BANK -->
-                <div class="pay-item">
-                    <img src="https://sf-static.upanhlaylink.com/img/image_20251224875121f61c580f3aae86e5ed0c5f18c8.jpg" alt="QR Vikki Bank" class="qr-img">
-                    <span class="bank-name">NGÂN HÀNG VIKKI BANK</span>
-                    <span class="acc-number">0708770813</span>
-                    <button class="btn-copy" onclick="copyText('0708770813')"><i class="fa-regular fa-copy"></i> Sao chép số</button>
-                </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                <a href="index.html" style="text-decoration: none; color: var(--primary-pink); font-weight: 600;"><i class="fa-solid fa-arrow-left"></i> Trang chủ</a>
+                <h2 style="margin: 0; color: var(--primary-pink); font-size: 1.8rem;">THANH TOÁN ❤️</h2>
+                <div style="width: 80px;"></div>
             </div>
 
-            <p style="font-size: 0.9rem; color: #bbb; margin-top: 40px; font-style: italic;">Sự đóng góp của bạn giúp mình có thêm động lực duy trì các dự án. Xin cảm ơn! ✨</p>
+            <div class="pay-grid">
+                <div class="pay-item">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_2025122410cdee12b3606090ccd3085b91c97a5b.jpg" class="qr-img">
+                    <span class="bank-name">MB BANK</span>
+                    <span class="acc-number">0708770813</span>
+                    <button class="btn-copy" onclick="copyText('0708770813')">Sao chép</button>
+                </div>
+                <div class="pay-item">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_202512246abf18f8ce626a4ee59dab8e58d5737a.jpg" class="qr-img">
+                    <span class="bank-name">VÍ MOMO</span>
+                    <span class="acc-number">0708770813</span>
+                    <button class="btn-copy" onclick="copyText('0708770813')">Sao chép</button>
+                </div>
+                <div class="pay-item">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20251224875121f61c580f3aae86e5ed0c5f18c8.jpg" class="qr-img">
+                    <span class="bank-name">VIKKI BANK</span>
+                    <span class="acc-number">0708770813</span>
+                    <button class="btn-copy" onclick="copyText('0708770813')">Sao chép</button>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div id="toast">Đã sao chép số tài khoản thành công! ✨</div>
+    <div id="toast">Đã sao chép thành công! ✨</div>
 
     <script>
-        // Màn hình loading
-        window.addEventListener('load', function() {
-            setTimeout(function() { document.body.classList.add('loaded'); }, 1000);
-        });
-
-        // Xử lý nhạc nền
-        var music = document.getElementById("bgMusic");
-        var btn = document.getElementById("musicBtn");
-        var icon = document.getElementById("musicIcon");
-
-        function toggleMusic() {
-            if (music.paused) {
-                music.play();
-                btn.classList.add("playing");
-                icon.classList.replace("fa-music", "fa-pause");
-            } else {
-                music.pause();
-                btn.classList.remove("playing");
-                icon.classList.replace("fa-pause", "fa-music");
-            }
+        // Tuyết rơi
+        const snowContainer = document.getElementById('snowContainer');
+        const particles = ['🌸', '❄️', '✨'];
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'snowflake';
+            particle.innerHTML = particles[Math.floor(Math.random() * particles.length)];
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDuration = Math.random() * 3 + 2 + 's';
+            particle.style.fontSize = Math.random() * 10 + 10 + 'px';
+            snowContainer.appendChild(particle);
+            setTimeout(() => { particle.remove(); }, 5000);
         }
+        setInterval(createParticle, 300);
 
-        // Xử lý sao chép văn bản
-        function copyText(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                var x = document.getElementById("toast");
-                x.className = "show";
-                setTimeout(function(){ x.className = ""; }, 3000);
-            });
-        }
+        window.addEventListener('load', () => setTimeout(() => { document.body.classList.add('loaded'); document.getElementById("bgMusic").play(); }, 800));
+        function copyText(t) { navigator.clipboard.writeText(t).then(() => { var x = document.getElementById("toast"); x.className = "show"; setTimeout(()=>x.className="", 3000); }); }
         
-        // Tự động phát khi chạm màn hình
-        document.addEventListener('click', function() { if (music.paused) toggleMusic(); }, { once: true });
+        // Tim bay khi click
+        document.addEventListener('click', function(e) {
+            const heart = document.createElement('div'); heart.innerHTML = '❤️'; heart.style.position = 'fixed';
+            heart.style.left = e.clientX + 'px'; heart.style.top = e.clientY + 'px';
+            heart.style.transition = '1s'; heart.style.pointerEvents = 'none'; document.body.appendChild(heart);
+            setTimeout(() => { heart.style.transform = 'translateY(-100px)'; heart.style.opacity = '0'; }, 50);
+            setTimeout(() => heart.remove(), 1000);
+        });
     </script>
 </body>
 </html>
