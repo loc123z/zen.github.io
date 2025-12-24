@@ -1,0 +1,50 @@
+<!-- Trang chủ: index.html -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lộc (zZz) - Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary-pink: #ff8fa3; --bg-soft: #fff9fa; --text-main: #4a4a4a; --shadow: 0 10px 30px rgba(255, 143, 163, 0.15); }
+        body { background-color: var(--bg-soft); font-family: 'Lexend', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { width: 100%; max-width: 420px; text-align: center; padding: 20px; animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .profile-img { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 6px solid #fff; box-shadow: var(--shadow); }
+        h1 { font-size: 1.7rem; color: var(--primary-pink); margin: 15px 0 5px; }
+        .social-box { display: flex; justify-content: center; gap: 15px; margin: 25px 0; }
+        .social-box a { width: 45px; height: 45px; background: #fff; color: var(--primary-pink); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.3s; }
+        .social-box a:hover { background: var(--primary-pink); color: #fff; transform: translateY(-5px); }
+        .links-wrapper { display: flex; flex-direction: column; gap: 12px; }
+        .link-card { background: #fff; padding: 18px; border-radius: 20px; text-decoration: none; color: var(--text-main); font-weight: 600; display: flex; align-items: center; justify-content: center; border: 1px solid white; transition: 0.3s; }
+        .link-card i { margin-right: 12px; color: var(--primary-pink); }
+        .link-card:hover { transform: scale(1.02); box-shadow: var(--shadow); border-color: var(--primary-pink); }
+        /* Nút Donate đặc biệt */
+        .btn-donate { background: var(--primary-pink) !important; color: white !important; }
+        .btn-donate i { color: white !important; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="profile">
+            <img src="https://sf-static.upanhlaylink.com/img/image_2025122489239905cb64cbfd55b5ac0a11711f34.jpg" alt="Lộc zZz" class="profile-img">
+            <h1>Lộc (zZz) ✨</h1>
+            <p style="color: #888;">Lộc – Đẹp Zai – Nhất</p>
+        </div>
+        <div class="social-box">
+            <a href="https://www.facebook.com/PhamloczZz/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://zalo.me/0708770813" target="_blank"><i class="fa-solid fa-comment-dots"></i></a>
+            <a href="#"><i class="fab fa-telegram-plane"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+        </div>
+        <div class="links-wrapper">
+            <a href="#" class="link-card"><i class="fa-solid fa-briefcase"></i> Portfolio Dự Án</a>
+            <a href="#" class="link-card"><i class="fa-solid fa-code"></i> Thiết kế Website</a>
+            <!-- Bấm vào đây sẽ mở trang bank.html -->
+            <a href="bank.html" class="link-card btn-donate"><i class="fa-solid fa-heart"></i> Donate / Thanh toán</a>
+        </div>
+    </div>
+</body>
+</html>
