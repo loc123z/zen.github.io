@@ -8,27 +8,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --primary-pink: #ff8fa3; --shadow: 0 10px 30px rgba(255, 143, 163, 0.2); }
-
         body {
             margin: 0; padding: 0; font-family: 'Lexend', sans-serif;
             background: linear-gradient(45deg, #fff9fa, #ffe4e9, #fff9fa, #ffd1dc);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            background-size: 400% 400%; animation: gradientBG 15s ease infinite;
             display: flex; justify-content: center; align-items: center; min-height: 100vh;
-            overflow: hidden;
+            overflow-x: hidden;
         }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* HIỆU ỨNG TUYẾT RƠI / HOA RƠI */
+        /* Tuyết rơi */
         .snow-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
-        .snowflake {
-            position: absolute; top: -10px; color: var(--primary-pink);
-            user-select: none; pointer-events: none; font-size: 1.2rem;
-            animation: fall linear infinite; opacity: 0.8;
-        }
-        @keyframes fall {
-            to { transform: translateY(105vh) translateX(20px) rotate(360deg); }
-        }
+        .snowflake { position: absolute; top: -10px; color: var(--primary-pink); user-select: none; pointer-events: none; animation: fall linear infinite; opacity: 0.8; }
+        @keyframes fall { to { transform: translateY(105vh) translateX(20px) rotate(360deg); } }
 
         #loader-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff9fa; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 999999; transition: 0.8s; }
         .loader-spinner { width: 50px; height: 50px; border: 5px solid #fff; border-top: 5px solid var(--primary-pink); border-radius: 50%; animation: spin 1s linear infinite; }
@@ -37,108 +29,92 @@
 
         .container {
             width: 100%; max-width: 400px; padding: 30px; text-align: center;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 40px; box-shadow: var(--shadow);
+            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 40px; box-shadow: var(--shadow);
             opacity: 0; transform: translateY(20px); transition: 1s; z-index: 10;
         }
         .loaded .container { opacity: 1; transform: translateY(0); }
-        .loaded body { overflow-y: auto; overflow-x: hidden; }
 
-        .profile-img { 
-            width: 140px; height: 140px; border-radius: 50%; 
-            object-fit: cover; border: 5px solid #fff; 
-            box-shadow: var(--shadow); animation: floating 3s ease-in-out infinite;
-        }
+        .profile-img { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 5px solid #fff; box-shadow: var(--shadow); animation: floating 3s ease-in-out infinite; }
         @keyframes floating { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-
+        
         h1 { background: linear-gradient(to right, #ff8fa3, #ff4d6d); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.8rem; margin: 15px 0 5px; }
-
-        .social-box a { width: 45px; height: 45px; background: #fff; color: var(--primary-pink); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; margin: 0 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.3s; }
-        .social-box a:hover { transform: scale(1.1) rotate(10deg); background: var(--primary-pink); color: #fff; }
-
-        .link-card {
-            background: rgba(255, 255, 255, 0.7); padding: 18px; border-radius: 20px;
-            text-decoration: none; color: #4a4a4a; font-weight: 600;
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 15px; border: 1px solid #fff; transition: 0.3s;
-            position: relative; overflow: hidden;
-        }
-        .link-card:hover { transform: scale(1.03); border-color: var(--primary-pink); box-shadow: var(--shadow); }
-        .link-card i { margin-right: 10px; color: var(--primary-pink); }
+        .link-card { background: rgba(255, 255, 255, 0.7); padding: 18px; border-radius: 20px; text-decoration: none; color: #4a4a4a; font-weight: 600; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; border: 1px solid #fff; transition: 0.3s; }
+        .link-card:hover { transform: scale(1.03); border-color: var(--primary-pink); }
         .btn-donate { background: var(--primary-pink) !important; color: white !important; }
 
         .music-control { position: fixed; bottom: 30px; left: 30px; z-index: 1000; }
-        .music-btn { width: 50px; height: 50px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow); color: var(--primary-pink); border: 2px solid #fff; transition: 0.4s; }
+        .music-btn { width: 50px; height: 50px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--primary-pink); box-shadow: var(--shadow); border: 2px solid #fff; }
         .music-btn.playing { animation: rotate 4s linear infinite; }
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-    <div id="loader-wrapper"><div class="loader-spinner"></div><p style="color: var(--primary-pink); margin-top: 10px;">Zzz...</p></div>
-    
-    <!-- Container cho tuyết rơi -->
+    <div id="loader-wrapper"><div class="loader-spinner"></div><p style="color: var(--primary-pink); margin-top: 10px;">Chào Lộc...</p></div>
     <div class="snow-container" id="snowContainer"></div>
 
-    <audio id="bgMusic" loop autoplay><source src="1.mp3" type="audio/mpeg"></audio>
+    <audio id="bgMusic" loop preload="auto"><source src="1.mp3" type="audio/mpeg"></audio>
     <div class="music-control"><div class="music-btn" id="musicBtn" onclick="toggleMusic()"><i class="fa-solid fa-music" id="musicIcon"></i></div></div>
 
     <div class="container">
         <div class="profile">
-            <img src="https://sf-static.upanhlaylink.com/img/image_2025122489239905cb64cbfd55b5ac0a11711f34.jpg" alt="Lộc" class="profile-img">
+            <img src="https://sf-static.upanhlaylink.com/img/image_2025122489239905cb64cbfd55b5ac0a11711f34.jpg" class="profile-img">
             <h1>Lộc (zZz) ✨</h1>
-            <p style="color: #888;">Lộc – Đẹp Zai – Nhất</p>
-        </div>
-        <div class="social-box">
-            <a href="https://www.facebook.com/PhamloczZz/" target="_blank"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://zalo.me/0708770813" target="_blank"><i class="fa-solid fa-comment-dots"></i></a>
+            <p style="color: #888;">Chạm vào bất cứ đâu để nghe nhạc</p>
         </div>
         <div class="links-wrapper" style="margin-top: 25px;">
             <a href="links.html" class="link-card"><i class="fa-solid fa-download"></i> Share Hack / Tool</a>
-            <a href="#" class="link-card"><i class="fa-solid fa-code"></i> Thiết kế Website</a>
             <a href="bank.html" class="link-card btn-donate"><i class="fa-solid fa-heart"></i> Donate / Thanh toán</a>
         </div>
     </div>
 
     <script>
-        // Tạo hiệu ứng rơi (Tuyết/Hoa)
-        const snowContainer = document.getElementById('snowContainer');
-        const particles = ['🌸', '❄️', '✨', '🌸'];
-        function createParticle() {
-            const particle = document.createElement('div');
-            particle.className = 'snowflake';
-            particle.innerHTML = particles[Math.floor(Math.random() * particles.length)];
-            particle.style.left = Math.random() * 100 + 'vw';
-            particle.style.animationDuration = Math.random() * 3 + 2 + 's';
-            particle.style.fontSize = Math.random() * 10 + 10 + 'px';
-            particle.style.opacity = Math.random();
-            snowContainer.appendChild(particle);
-            setTimeout(() => { particle.remove(); }, 5000);
-        }
-        setInterval(createParticle, 300);
+        const music = document.getElementById("bgMusic");
+        const mBtn = document.getElementById("musicBtn");
+        const mIcon = document.getElementById("musicIcon");
 
-        // Music & Loader
-        var music = document.getElementById("bgMusic");
-        window.addEventListener('load', function() {
-            setTimeout(() => { document.body.classList.add('loaded'); music.play(); }, 1200);
+        // Hàm phát nhạc tự động
+        function autoPlay() {
+            music.play().then(() => {
+                mBtn.classList.add("playing");
+                mIcon.classList.replace("fa-music", "fa-pause");
+            }).catch(() => {
+                console.log("Cần click để phát nhạc");
+            });
+        }
+
+        // Phát khi người dùng chạm màn hình lần đầu
+        document.addEventListener('click', autoPlay, { once: true });
+        document.addEventListener('touchstart', autoPlay, { once: true });
+
+        window.addEventListener('load', () => {
+            setTimeout(() => document.body.classList.add('loaded'), 1000);
+            autoPlay(); // Thử phát ngay
         });
 
         function toggleMusic() {
-            var btn = document.getElementById("musicBtn");
-            var icon = document.getElementById("musicIcon");
-            if (music.paused) { music.play(); btn.classList.add("playing"); icon.classList.replace("fa-music", "fa-pause");
-            } else { music.pause(); btn.classList.remove("playing"); icon.classList.replace("fa-pause", "fa-music"); }
+            if (music.paused) { music.play(); mBtn.classList.add("playing"); mIcon.classList.replace("fa-music", "fa-pause");
+            } else { music.pause(); mBtn.classList.remove("playing"); mIcon.classList.replace("fa-pause", "fa-music"); }
         }
 
+        // Tuyết rơi & Tim bay
+        const particles = ['🌸', '❄️', '✨'];
+        function createParticle() {
+            const p = document.createElement('div'); p.className = 'snowflake';
+            p.innerHTML = particles[Math.floor(Math.random() * particles.length)];
+            p.style.left = Math.random() * 100 + 'vw'; p.style.animationDuration = Math.random() * 3 + 2 + 's';
+            p.style.fontSize = Math.random() * 10 + 10 + 'px';
+            document.getElementById('snowContainer').appendChild(p);
+            setTimeout(() => p.remove(), 5000);
+        }
+        setInterval(createParticle, 300);
+
         document.addEventListener('click', function(e) {
-            const heart = document.createElement('div');
-            heart.innerHTML = '❤️'; heart.style.position = 'fixed';
-            heart.style.left = (e.clientX - 10) + 'px'; heart.style.top = (e.clientY - 10) + 'px';
-            heart.style.fontSize = '20px'; heart.style.pointerEvents = 'none'; heart.style.zIndex = '999999';
-            heart.style.transition = 'all 1s ease'; document.body.appendChild(heart);
-            setTimeout(() => { heart.style.transform = `translateY(-100px) scale(1.5)`; heart.style.opacity = '0'; }, 50);
-            setTimeout(() => { heart.remove(); }, 1000);
-            if(music.paused) toggleMusic();
+            const h = document.createElement('div'); h.innerHTML = '❤️'; h.style.position = 'fixed';
+            h.style.left = e.clientX + 'px'; h.style.top = e.clientY + 'px'; h.style.transition = '1s';
+            h.style.pointerEvents = 'none'; document.body.appendChild(h);
+            setTimeout(() => { h.style.transform = 'translateY(-100px)'; h.style.opacity = '0'; }, 50);
+            setTimeout(() => h.remove(), 1000);
         });
     </script>
 </body>

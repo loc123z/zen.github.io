@@ -8,60 +8,55 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --primary-pink: #ff8fa3; --shadow: 0 15px 45px rgba(255, 143, 163, 0.2); }
-        
         body {
             margin: 0; padding: 0; font-family: 'Lexend', sans-serif;
             background: linear-gradient(135deg, #fff9fa, #ffd1dc);
             background-size: 400% 400%; animation: gradientBG 15s ease infinite;
-            display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow-x: hidden;
+            display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden;
         }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* HIỆU ỨNG RƠI */
+        /* RƠI */
         .snow-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
-        .snowflake { position: absolute; top: -10px; color: var(--primary-pink); user-select: none; pointer-events: none; animation: fall linear infinite; opacity: 0.8; }
-        @keyframes fall { to { transform: translateY(105vh) translateX(20px) rotate(360deg); } }
+        .snowflake { position: absolute; top: -10px; color: var(--primary-pink); animation: fall linear infinite; opacity: 0.8; }
+        @keyframes fall { to { transform: translateY(105vh) rotate(360deg); } }
 
         #loader-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff9fa; display: flex; justify-content: center; align-items: center; z-index: 9999; transition: 0.6s; }
         .loader-spinner { width: 50px; height: 50px; border: 5px solid #fff; border-top: 5px solid var(--primary-pink); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
         .loaded #loader-wrapper { opacity: 0; visibility: hidden; }
 
-        .container { width: 95%; max-width: 1100px; padding: 40px 20px; opacity: 0; transition: 1s; z-index: 10; }
+        .container { width: 95%; max-width: 1100px; padding: 20px; opacity: 0; transition: 1s; z-index: 10; }
         .loaded .container { opacity: 1; }
 
         .donate-card { 
-            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             padding: 50px 40px; border-radius: 50px; box-shadow: var(--shadow); border: 1px solid rgba(255,255,255,0.5); text-align: center;
         }
 
         .pay-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; margin-top: 30px; }
         .pay-item {
-            background: rgba(255,255,255,0.8); border-radius: 40px; padding: 30px;
+            background: #fff; border-radius: 40px; padding: 30px;
             transition: 0.4s; box-shadow: 0 10px 20px rgba(0,0,0,0.02); border: 1px solid transparent;
         }
-        .pay-item:hover { transform: translateY(-15px); box-shadow: var(--shadow); border-color: var(--primary-pink); }
+        .pay-item:hover { transform: translateY(-15px); border-color: var(--primary-pink); box-shadow: var(--shadow); }
 
-        .qr-img { width: 100%; max-width: 250px; border-radius: 20px; margin-bottom: 20px; border: 2px solid #fff; transition: 0.3s; }
-        .qr-img:hover { transform: scale(1.05); }
-        
+        .qr-img { width: 100%; max-width: 250px; border-radius: 20px; margin-bottom: 20px; border: 2px solid #fff; }
         .bank-name { font-size: 0.9rem; font-weight: 600; color: var(--primary-pink); letter-spacing: 1px; }
         .acc-number { font-size: 1.3rem; font-weight: 600; color: #333; margin: 10px 0 20px; display: block; }
-        .btn-copy { background: var(--primary-pink); color: white; border: none; padding: 12px 30px; border-radius: 15px; cursor: pointer; font-weight: 600; transition: 0.3s; width: 100%; max-width: 200px; }
-        .btn-copy:hover { background: #ff4d6d; transform: scale(1.05); }
+        .btn-copy { background: var(--primary-pink); color: white; border: none; padding: 12px 30px; border-radius: 15px; cursor: pointer; font-weight: 600; transition: 0.3s; width: 100%; }
+        .btn-copy:hover { transform: scale(1.05); background: #ff4d6d; }
 
         #toast { visibility: hidden; background: #333; color: #fff; padding: 15px 30px; border-radius: 50px; position: fixed; left: 50%; bottom: 50px; transform: translateX(-50%); z-index: 10000; }
         #toast.show { visibility: visible; }
 
-        @media (max-width: 900px) { .pay-grid { gap: 20px; } }
-        @media (max-width: 768px) { .pay-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; } }
+        @media (max-width: 768px) { .pay-grid { grid-template-columns: 1fr; } body { overflow-y: auto; } }
     </style>
 </head>
 <body>
     <div id="loader-wrapper"><div class="loader-spinner"></div></div>
     <div class="snow-container" id="snowContainer"></div>
 
-    <audio id="bgMusic" loop autoplay><source src="1.mp3" type="audio/mpeg"></audio>
+    <audio id="bgMusic" loop preload="auto"><source src="1.mp3" type="audio/mpeg"></audio>
 
     <div class="container">
         <div class="donate-card">
@@ -74,53 +69,50 @@
             <div class="pay-grid">
                 <div class="pay-item">
                     <img src="https://sf-static.upanhlaylink.com/img/image_2025122410cdee12b3606090ccd3085b91c97a5b.jpg" class="qr-img">
-                    <span class="bank-name">MB BANK</span>
-                    <span class="acc-number">0708770813</span>
+                    <span class="bank-name">MB BANK</span><span class="acc-number">0708770813</span>
                     <button class="btn-copy" onclick="copyText('0708770813')">Sao chép</button>
                 </div>
                 <div class="pay-item">
                     <img src="https://sf-static.upanhlaylink.com/img/image_202512246abf18f8ce626a4ee59dab8e58d5737a.jpg" class="qr-img">
-                    <span class="bank-name">VÍ MOMO</span>
-                    <span class="acc-number">0708770813</span>
+                    <span class="bank-name">VÍ MOMO</span><span class="acc-number">0708770813</span>
                     <button class="btn-copy" onclick="copyText('0708770813')">Sao chép</button>
                 </div>
                 <div class="pay-item">
                     <img src="https://sf-static.upanhlaylink.com/img/image_20251224875121f61c580f3aae86e5ed0c5f18c8.jpg" class="qr-img">
-                    <span class="bank-name">VIKKI BANK</span>
-                    <span class="acc-number">0708770813</span>
+                    <span class="bank-name">VIKKI BANK</span><span class="acc-number">0708770813</span>
                     <button class="btn-copy" onclick="copyText('0708770813')">Sao chép</button>
                 </div>
             </div>
         </div>
     </div>
-    <div id="toast">Đã sao chép thành công! ✨</div>
+    <div id="toast">Đã sao chép: 0708770813! ✨</div>
 
     <script>
-        // Tuyết rơi
-        const snowContainer = document.getElementById('snowContainer');
+        const music = document.getElementById("bgMusic");
+        function playMusic() { music.play().catch(()=>{}); }
+        document.addEventListener('click', playMusic, { once: true });
+        document.addEventListener('touchstart', playMusic, { once: true });
+        window.addEventListener('load', () => { setTimeout(() => document.body.classList.add('loaded'), 800); playMusic(); });
+
+        function copyText(t) { navigator.clipboard.writeText(t).then(() => { var x = document.getElementById("toast"); x.className = "show"; setTimeout(()=>x.className="", 3000); }); }
+
+        // Hiệu ứng rơi & Click
         const particles = ['🌸', '❄️', '✨'];
         function createParticle() {
-            const particle = document.createElement('div');
-            particle.className = 'snowflake';
-            particle.innerHTML = particles[Math.floor(Math.random() * particles.length)];
-            particle.style.left = Math.random() * 100 + 'vw';
-            particle.style.animationDuration = Math.random() * 3 + 2 + 's';
-            particle.style.fontSize = Math.random() * 10 + 10 + 'px';
-            snowContainer.appendChild(particle);
-            setTimeout(() => { particle.remove(); }, 5000);
+            const p = document.createElement('div'); p.className = 'snowflake';
+            p.innerHTML = particles[Math.floor(Math.random() * particles.length)];
+            p.style.left = Math.random() * 100 + 'vw'; p.style.animationDuration = Math.random() * 3 + 2 + 's';
+            p.style.fontSize = Math.random() * 10 + 10 + 'px';
+            document.getElementById('snowContainer').appendChild(p);
+            setTimeout(() => p.remove(), 5000);
         }
         setInterval(createParticle, 300);
-
-        window.addEventListener('load', () => setTimeout(() => { document.body.classList.add('loaded'); document.getElementById("bgMusic").play(); }, 800));
-        function copyText(t) { navigator.clipboard.writeText(t).then(() => { var x = document.getElementById("toast"); x.className = "show"; setTimeout(()=>x.className="", 3000); }); }
-        
-        // Tim bay khi click
-        document.addEventListener('click', function(e) {
-            const heart = document.createElement('div'); heart.innerHTML = '❤️'; heart.style.position = 'fixed';
-            heart.style.left = e.clientX + 'px'; heart.style.top = e.clientY + 'px';
-            heart.style.transition = '1s'; heart.style.pointerEvents = 'none'; document.body.appendChild(heart);
-            setTimeout(() => { heart.style.transform = 'translateY(-100px)'; heart.style.opacity = '0'; }, 50);
-            setTimeout(() => heart.remove(), 1000);
+        document.addEventListener('click', (e) => {
+            const h = document.createElement('div'); h.innerHTML = '❤️'; h.style.position = 'fixed';
+            h.style.left = e.clientX + 'px'; h.style.top = e.clientY + 'px'; h.style.transition = '1s';
+            h.style.pointerEvents = 'none'; document.body.appendChild(h);
+            setTimeout(() => { h.style.transform = 'translateY(-100px)'; h.style.opacity = '0'; }, 50);
+            setTimeout(() => h.remove(), 1000);
         });
     </script>
 </body>
