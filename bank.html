@@ -17,7 +17,6 @@
         body { background-color: var(--bg-soft); font-family: 'Lexend', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; overflow-x: hidden; }
         .loaded body { overflow: auto; }
         
-        /* Tăng max-width để các cột có không gian giãn ra */
         .container { width: 100%; max-width: 650px; padding: 20px; opacity: 0; transition: 0.8s; }
         .loaded .container { opacity: 1; }
 
@@ -26,7 +25,7 @@
         
         .donate-card { background: #fff; padding: 35px 25px; border-radius: 35px; box-shadow: var(--shadow); }
         
-        /* KHOẢNG CÁCH GIỮA CÁC CỘT (gap: 25px) */
+        /* Khoảng cách 3 cột xa nhau */
         .pay-grid { 
             display: grid; 
             grid-template-columns: 1fr 1fr 1fr; 
@@ -51,6 +50,7 @@
             box-shadow: var(--shadow);
         }
 
+        /* Ảnh QR từ link bạn gửi */
         .qr-img { width: 100%; border-radius: 15px; margin-bottom: 15px; border: 1px solid #f9f9f9; }
         
         .bank-name { font-size: 0.7rem; font-weight: 600; color: var(--primary-pink); margin-bottom: 5px; letter-spacing: 0.5px; }
@@ -79,11 +79,10 @@
         .music-btn.playing { animation: rotate 4s linear infinite; }
         @keyframes rotate { 100% { transform: rotate(360deg); } }
 
-        /* Tối ưu cho điện thoại nhỏ */
-        @media (max-width: 500px) {
+        @media (max-width: 550px) {
             .pay-grid { gap: 10px; }
-            .donate-card { padding: 25px 15px; }
-            .acc-number { font-size: 0.7rem; }
+            .donate-card { padding: 25px 10px; }
+            .acc-number { font-size: 0.65rem; }
         }
     </style>
 </head>
@@ -112,28 +111,28 @@
             <h2 style="color: var(--primary-pink); font-size: 1.3rem; margin-bottom: 25px; font-weight: 600;">Donate cho mình nhé ❤️</h2>
             
             <div class="pay-grid">
-                <!-- MB BANK -->
+                <!-- CỘT 1: MB BANK -->
                 <div class="pay-item">
-                    <img src="https://sf-static.upanhlaylink/.com/img/image_20251224462ccbf4e276378f592f30306a4795d7.jpg" alt="MB" class="qr-img">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_2025122410cdee12b3606090ccd3085b91c97a5b.jpg" alt="QR MB" class="qr-img">
                     <span class="bank-name">MB BANK</span>
                     <span class="acc-number">0708770813</span>
-                    <button class="btn-copy" onclick="copyText('0123456789')">Sao chép</button>
+                    <button class="btn-copy" onclick="copyText('0708770813')">Sao chép</button>
                 </div>
 
-                <!-- MOMO -->
+                <!-- CỘT 2: MOMO -->
                 <div class="pay-item">
-                    <img src="https://sf-static.upanhlaylink/.com/img/image_20251224ebf288d550ff91b092bbe49ad6881b38.jpg" alt="Momo" class="qr-img">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_202512246abf18f8ce626a4ee59dab8e58d5737a.jpg" alt="QR Momo" class="qr-img">
                     <span class="bank-name">VÍ MOMO</span>
                     <span class="acc-number">0708770813</span>
-                    <button class="btn-copy" onclick="copyText('0987654321')">Sao chép</button>
+                    <button class="btn-copy" onclick="copyText('0708770813')">Sao chép</button>
                 </div>
 
-                <!-- VIKKI BANK -->
+                <!-- CỘT 3: VIKKI BANK -->
                 <div class="pay-item">
-                    <img src="https://sf-static.upanhlaylink/.com/img/image_202512240549d578273007c41bf98e9dede33fef.jpg" alt="Vikki" class="qr-img">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_20251224875121f61c580f3aae86e5ed0c5f18c8.jpg" alt="QR Vikki" class="qr-img">
                     <span class="bank-name">VIKKI BANK</span>
                     <span class="acc-number">0708770813</span>
-                    <button class="btn-copy" onclick="copyText('12345678')">Sao chép</button>
+                    <button class="btn-copy" onclick="copyText('0708770813')">Sao chép</button>
                 </div>
             </div>
 
@@ -141,13 +140,15 @@
         </div>
     </div>
 
-    <div id="toast">Đã sao chép vào bộ nhớ! ✨</div>
+    <div id="toast">Đã sao chép: 0708770813! ✨</div>
 
     <script>
+        // Loading
         window.addEventListener('load', function() {
             setTimeout(function() { document.body.classList.add('loaded'); }, 1000);
         });
 
+        // Music
         var music = document.getElementById("bgMusic");
         var btn = document.getElementById("musicBtn");
         var icon = document.getElementById("musicIcon");
@@ -164,6 +165,7 @@
             }
         }
 
+        // Copy
         function copyText(text) {
             navigator.clipboard.writeText(text).then(() => {
                 var x = document.getElementById("toast");
@@ -172,6 +174,7 @@
             });
         }
         
+        // Autoplay khi tương tác
         document.addEventListener('click', function() { if (music.paused) toggleMusic(); }, { once: true });
     </script>
 </body>
