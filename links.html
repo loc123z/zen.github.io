@@ -9,7 +9,6 @@
     <style>
         :root { --primary-pink: #ff8fa3; --bg-soft: #fff9fa; --shadow: 0 10px 30px rgba(255, 143, 163, 0.15); }
         
-        /* Hiệu ứng Load trang */
         #loader-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-soft); display: flex; justify-content: center; align-items: center; z-index: 9999; transition: 0.6s; }
         .loader-spinner { width: 40px; height: 40px; border: 4px solid #fff; border-top: 4px solid var(--primary-pink); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -20,16 +19,14 @@
         .container { width: 100%; max-width: 450px; text-align: center; padding: 20px; opacity: 0; transition: 0.8s; }
         .loaded .container { opacity: 1; }
 
-        /* Header */
         .header-links { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; }
         .btn-back { text-decoration: none; color: var(--primary-pink); font-weight: 600; font-size: 0.9rem; }
         h2 { color: var(--primary-pink); font-size: 1.4rem; margin-bottom: 5px; }
         .subtitle { color: #888; font-size: 0.85rem; margin-bottom: 25px; }
 
-        /* Danh sách App/Tool */
         .links-list { display: flex; flex-direction: column; gap: 15px; }
         .link-item { 
-            background: #fff; padding: 15px; border-radius: 20px; 
+            background: #fff; padding: 12px; border-radius: 20px; 
             text-decoration: none; color: #4a4a4a; display: flex; 
             align-items: center; box-shadow: 0 5px 15px rgba(0,0,0,0.03); 
             border: 1px solid #fff; transition: 0.3s; position: relative;
@@ -37,16 +34,19 @@
         }
         .link-item:hover { border-color: var(--primary-pink); transform: translateY(-3px); box-shadow: var(--shadow); }
         
-        /* Icon App */
-        .app-icon { 
-            width: 50px; height: 50px; background: var(--bg-soft); 
-            color: var(--primary-pink); border-radius: 12px; 
-            display: flex; align-items: center; justify-content: center; 
-            margin-right: 15px; font-size: 1.5rem; flex-shrink: 0;
+        /* PHẦN AVATAR APP MỚI */
+        .app-avatar { 
+            width: 55px; height: 55px; 
+            border-radius: 14px; 
+            object-fit: cover; /* Đảm bảo ảnh không bị méo */
+            margin-right: 15px; 
+            flex-shrink: 0;
+            background: #eee;
+            border: 1px solid #f0f0f0;
         }
 
         .app-info { text-align: left; flex-grow: 1; }
-        .app-name { display: block; font-weight: 600; font-size: 1rem; color: #333; }
+        .app-name { display: block; font-weight: 600; font-size: 0.95rem; color: #333; }
         .app-desc { display: block; font-size: 0.75rem; color: #999; margin-top: 2px; }
 
         .btn-download {
@@ -54,20 +54,17 @@
             border-radius: 10px; font-size: 0.7rem; font-weight: 600;
         }
 
-        /* Label "HOT" hoặc "NEW" */
         .badge {
             position: absolute; top: 0; right: 0; background: #ff4d6d;
-            color: white; font-size: 0.6rem; padding: 2px 10px;
+            color: white; font-size: 0.6rem; padding: 2px 8px;
             border-bottom-left-radius: 10px; font-weight: 600;
         }
 
-        /* Nút nhạc */
         .music-control { position: fixed; bottom: 30px; left: 30px; z-index: 1000; }
         .music-btn { width: 45px; height: 45px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow); color: var(--primary-pink); border: 2px solid #fff; }
         .music-btn.playing { animation: rotate 4s linear infinite; }
         @keyframes rotate { 100% { transform: rotate(360deg); } }
 
-        /* Chú ý nhỏ */
         .warning-box {
             background: #fff0f3; color: #ff8fa3; padding: 12px;
             border-radius: 15px; font-size: 0.75rem; margin-bottom: 20px;
@@ -78,7 +75,6 @@
 <body>
     <div id="loader-wrapper"><div class="loader-spinner"></div></div>
     
-    <!-- Âm thanh 1.mp3 -->
     <audio id="bgMusic" loop autoplay><source src="1.mp3" type="audio/mpeg"></audio>
     <div class="music-control"><div class="music-btn" id="musicBtn" onclick="toggleMusic()"><i class="fa-solid fa-music" id="musicIcon"></i></div></div>
 
@@ -94,61 +90,53 @@
 
         <div class="warning-box">
             <i class="fa-solid fa-triangle-exclamation"></i> 
-            Lưu ý: Một số Tool có thể bị báo virus do tính chất Hack. Cân nhắc trước khi dùng!
+            Lưu ý: Tool hack có thể bị nhận nhầm là virus.
         </div>
 
         <div class="links-list">
-            <!-- APP 1 -->
+            
+            <!-- APP 1: CÓ AVATAR -->
             <a href="https://www.mediafire.com/file/0c19asxqi360r10/Delta_Vng_V2.702.632_Up.apk/file" target="_blank" class="link-item">
                 <div class="badge">HOT</div>
-                <div class="app-icon"><i class="fa-brands fa-android"></i></div>
+                <!-- Thay link ảnh avatar vào src bên dưới -->
+                <img src="https://sf-static.upanhlaylink.com/img/image_20251224d16fc684451551344852ca5d01f9bb9a.jpg" class="app-avatar" alt="Delta">
                 <div class="app-info">
-                    <span class="Delta VNG APK">Exploit Roblox Mobile</span>
+                    <span class="app-name">Delta VNG APK</span>
+                    <span class="app-desc">Exploit Roblox Mobile mượt mà</span>
                 </div>
                 <div class="btn-download">Tải về</div>
             </a>
 
-            <!-- APP 2 -->
+            <!-- APP 2: CÓ AVATAR -->
             <a href="https://i.authtool.app/ios/694ad023a957dec3776f15af" target="_blank" class="link-item">
-                <div class="app-icon" style="color: #00a8ff;"><i class="fa-solid fa-bolt"></i></div>
+                <img src="https://sf-static.upanhlaylink.com/img/image_20251224ea35ad3fd519aa7023503ab05ae9e892.jpg" class="app-avatar" alt="LQMB">
                 <div class="app-info">
-                    <span class="LQMBV1">Menu LQ ios</span>
-                    <span class="LQMBV1">Map sáng, Mod Skin, Bug tầm chiêu, vv</span>
+                    <span class="app-name">Menu LQ iOS</span>
+                    <span class="app-desc">Map sáng, Mod Skin, Bug tầm chiêu</span>
                 </div>
                 <div class="btn-download">Tải về</div>
             </a>
 
-            <!-- APP 3 -->
-            <a href="CHUA CO GI" target="_blank" class="link-item">
-                <div class="app-icon" style="color: #2ecc71;"><i class="fa-solid fa-shield-halved"></i></div>
+            <!-- APP 3: VÍ DỤ NẾU CHƯA CÓ ẢNH THÌ DÙNG MẶC ĐỊNH -->
+            <a href="#" class="link-item">
+                <img src="https://via.placeholder.com/100" class="app-avatar" alt="Chưa có">
                 <div class="app-info">
-                    <span class="CHUA CO GI">VCHUA CO GI</span>
-                    <span class="CHUA CO GI">CHUA CO GI</span>
+                    <span class="app-name">Sắp cập nhật...</span>
+                    <span class="app-desc">Đang đợi phiên bản mới</span>
                 </div>
-                <div class="btn-download">Tải về</div>
+                <div class="btn-download">Chờ</div>
             </a>
 
-            <!-- APP 4 -->
-            <a href="CHUA CO GI" target="_blank" class="link-item">
-                <div class="app-icon" style="color: #f1c40f;"><i class="fa-solid fa-microchip"></i></div>
-                <div class="app-info">
-                    <span class="VCHUA CO GI">VCHUA CO GI</span>
-                    <span class="CHUA CO GIGIT ADD .">CHUA CO GI</span>
-                </div>
-                <div class="btn-download">Tải về</div>
-            </a>
         </div>
 
         <p style="margin-top: 40px; font-size: 0.75rem; color: #bbb;">Cập nhật lần cuối: 2025 by Lộc (zZz)</p>
     </div>
 
     <script>
-        // Load trang
         window.addEventListener('load', function() {
             setTimeout(() => { document.body.classList.add('loaded'); }, 800);
         });
 
-        // Nhạc
         var music = document.getElementById("bgMusic");
         var btn = document.getElementById("musicBtn");
         var icon = document.getElementById("musicIcon");
@@ -164,8 +152,6 @@
                 icon.classList.replace("fa-pause", "fa-music");
             }
         }
-        
-        // Tự động phát khi chạm vào màn hình
         document.addEventListener('click', function() { if (music.paused) toggleMusic(); }, { once: true });
     </script>
 </body>
