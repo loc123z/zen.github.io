@@ -17,6 +17,7 @@
         }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
+        /* Tuyết rơi */
         .snow-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
         .snowflake { position: absolute; top: -10px; color: var(--primary-pink); user-select: none; pointer-events: none; animation: fall linear infinite; opacity: 0.8; }
         @keyframes fall { to { transform: translateY(105vh) translateX(20px) rotate(360deg); } }
@@ -38,24 +39,16 @@
         
         h1 { background: linear-gradient(to right, #ff8fa3, #ff4d6d); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.8rem; margin: 15px 0 5px; }
         
-        /* Nút mắt xem thật */
+        /* Hiển thị mắt xem (Tổng số lần click) */
         .view-stat {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.6);
-            padding: 8px 18px;
-            border-radius: 50px;
-            margin: 15px 0;
-            font-size: 0.9rem;
-            color: #ff4d6d;
-            border: 1px solid #fff;
-            box-shadow: 0 4px 15px rgba(255, 143, 163, 0.1);
-            font-weight: 600;
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 8px 20px; border-radius: 50px; margin: 15px 0;
+            font-size: 0.9rem; color: #ff4d6d; font-weight: 600;
+            border: 1px solid #fff; box-shadow: 0 4px 15px rgba(255, 143, 163, 0.1);
         }
-        .view-stat i { font-size: 1.1rem; }
 
-        .link-card { background: rgba(255, 255, 255, 0.7); padding: 18px; border-radius: 20px; text-decoration: none; color: #4a4a4a; font-weight: 600; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; border: 1px solid #fff; transition: 0.3s; }
+        .link-card { background: rgba(255, 255, 255, 0.7); padding: 18px; border-radius: 20px; text-decoration: none; color: #4a4a4a; font-weight: 600; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; border: 1px solid #fff; transition: 0.3s; cursor: pointer; }
         .link-card:hover { transform: scale(1.03); border-color: var(--primary-pink); }
         .btn-donate { background: var(--primary-pink) !important; color: white !important; }
 
@@ -66,7 +59,7 @@
     </style>
 </head>
 <body>
-    <div id="loader-wrapper"><div class="loader-spinner"></div><p style="color: var(--primary-pink); margin-top: 10px;">Đang tải...</p></div>
+    <div id="loader-wrapper"><div class="loader-spinner"></div><p style="color: var(--primary-pink); margin-top: 10px;">Đang tải dữ liệu...</p></div>
     <div class="snow-container" id="snowContainer"></div>
 
     <audio id="bgMusic" loop preload="auto"><source src="1.mp3" type="audio/mpeg"></audio>
@@ -77,39 +70,63 @@
             <img src="https://sf-static.upanhlaylink.com/img/image_2025122489239905cb64cbfd55b5ac0a11711f34.jpg" class="profile-img">
             <h1>Lộc (zZz) ✨</h1>
             
-            <!-- Nút mắt xem hiển thị số thật -->
+            <!-- Mắt xem dựa trên số lần nhấp link -->
             <div class="view-stat">
                 <i class="fa-solid fa-eye"></i>
-                <span id="visitor-count">Đang tính...</span>
+                <span>Tổng mắt xem: <b id="click-count">0</b></span>
             </div>
 
-            <p style="color: #888; font-size: 0.8rem;">Chạm để nghe nhạc</p>
+            <p style="color: #888; font-size: 0.8rem;">Click vào các nút bên dưới để tăng mắt xem</p>
         </div>
         <div class="links-wrapper" style="margin-top: 10px;">
-            <a href="links.html" class="link-card"><i class="fa-solid fa-download"></i> Share Hack / Tool</a>
-            <a href="bank.html" class="link-card btn-donate"><i class="fa-solid fa-heart"></i> Donate / Thanh toán</a>
+            <!-- Thêm hàm trackClick vào các thẻ <a> -->
+            <a href="links.html" onclick="trackClick(event, this.href)" class="link-card">
+                <i class="fa-solid fa-download" style="margin-right: 10px;"></i> Share Hack / Tool
+            </a>
+            <a href="bank.html" onclick="trackClick(event, this.href)" class="link-card btn-donate">
+                <i class="fa-solid fa-heart" style="margin-right: 10px;"></i> Donate / Thanh toán
+            </a>
         </div>
     </div>
 
     <script>
-        // HÀM ĐẾM LƯỢT XEM THẬT (Dùng CounterAPI)
-        // Mỗi lần load trang, API này sẽ tự động cộng thêm 1
-        async function getRealViews() {
-            const countDisplay = document.getElementById('visitor-count');
+        const API_URL = 'https://api.counterapi.dev/v1/loc_zzz_click_stats/main';
+
+        // 1. Lấy dữ liệu mắt xem hiện tại khi vừa vào web
+        async function loadClicks() {
             try {
-                // 'loc_zzz_official' là ID riêng của bạn. Bạn có thể đổi tên khác để bắt đầu đếm lại từ đầu.
-                const response = await fetch('https://api.counterapi.dev/v1/loc_zzz_official/main/increment');
+                const response = await fetch(API_URL);
                 const data = await response.json();
-                if (data.count) {
-                    countDisplay.innerText = data.count.toLocaleString() + " lượt ghé thăm";
+                if(data.count) {
+                    document.getElementById('click-count').innerText = data.count.toLocaleString();
                 }
             } catch (error) {
-                console.error("Lỗi API:", error);
-                countDisplay.innerText = "Sẵn sàng!";
+                console.log("Chưa có dữ liệu khởi tạo");
             }
         }
-        getRealViews();
 
+        // 2. Hàm xử lý khi nhấp vào link: Tăng số lượng rồi mới chuyển trang
+        async function trackClick(event, url) {
+            event.preventDefault(); // Dừng chuyển trang ngay lập tức
+            
+            // Hiển thị hiệu ứng đang xử lý (tùy chọn)
+            document.getElementById('click-count').innerText = "...";
+
+            try {
+                // Gửi yêu cầu tăng số lượng (+1)
+                await fetch(API_URL + '/increment');
+                // Sau khi tăng thành công, chuyển hướng trang
+                window.location.href = url;
+            } catch (error) {
+                // Nếu lỗi API vẫn chuyển trang để không làm phiền người dùng
+                window.location.href = url;
+            }
+        }
+
+        // Gọi hàm load dữ liệu khi trang web mở
+        loadClicks();
+
+        // Các hiệu ứng cũ giữ nguyên
         const music = document.getElementById("bgMusic");
         const mBtn = document.getElementById("musicBtn");
         const mIcon = document.getElementById("musicIcon");
@@ -122,11 +139,8 @@
         }
 
         document.addEventListener('click', autoPlay, { once: true });
-        document.addEventListener('touchstart', autoPlay, { once: true });
-
         window.addEventListener('load', () => {
             setTimeout(() => document.body.classList.add('loaded'), 1000);
-            autoPlay();
         });
 
         function toggleMusic() {
@@ -134,16 +148,14 @@
             } else { music.pause(); mBtn.classList.remove("playing"); mIcon.classList.replace("fa-pause", "fa-music"); }
         }
 
-        const particles = ['🌸', '❄️', '✨'];
-        function createParticle() {
+        // Tuyết rơi & Tim bay
+        setInterval(() => {
             const p = document.createElement('div'); p.className = 'snowflake';
-            p.innerHTML = particles[Math.floor(Math.random() * particles.length)];
+            p.innerHTML = ['🌸', '❄️', '✨'][Math.floor(Math.random() * 3)];
             p.style.left = Math.random() * 100 + 'vw'; p.style.animationDuration = Math.random() * 3 + 2 + 's';
-            p.style.fontSize = Math.random() * 10 + 10 + 'px';
             document.getElementById('snowContainer').appendChild(p);
             setTimeout(() => p.remove(), 5000);
-        }
-        setInterval(createParticle, 300);
+        }, 300);
 
         document.addEventListener('click', function(e) {
             const h = document.createElement('div'); h.innerHTML = '❤️'; h.style.position = 'fixed';
