@@ -89,7 +89,254 @@
             <a href="#" class="link-item"><img src="https://via.placeholder.com/100" class="app-avatar"><div class="app-info"><span class="app-name">App Số 4</span><span class="app-desc">Mô tả app...</span></div><div class="btn-download">Tải về</div></a>
             <a href="#" class="link-item"><img src="https://via.placeholder.com/100" class="app-avatar"><div class="app-info"><span class="app-name">App Số 5</span><span class="app-desc">Mô tả app...</span></div><div class="btn-download">Tải về</div></a>
             <a href="#" class="link-item"><img src="https://via.placeholder.com/100" class="app-avatar"><div class="app-info"><span class="app-name">App Số 6</span><span class="app-desc">Mô tả app...</span></div><div class="btn-download">Tải về</div></a>
-            <a href="#" class="link-item"><img src="https://via.placeholder.com/100" class="app-avatar"><div class="app-info"><span class="app-name">App Số 7</span><span class="app-desc">Mô tả app...</span></div><div class="btn-download">Tải về</div></a>
+            <a href="#" class="link-item"><img src="https://via.placeholder.com/100" class="app-avatar"><div class="app-info"><span class="app-name">App Số 7</span><span class="app-desc">Mô tả app...</span></div><div class="btn-download">Tải về</div></a><!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kho App & Tool - Lộc (zZz)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary-pink: #ff8fa3; --bg-soft: #fff9fa; --shadow: 0 10px 30px rgba(255, 143, 163, 0.2); }
+        
+        body {
+            margin: 0; padding: 0; font-family: 'Lexend', sans-serif;
+            background: linear-gradient(45deg, #fff9fa, #ffe4e9, #fff9fa, #ffd1dc);
+            background-size: 400% 400%; animation: gradientBG 15s ease infinite;
+            display: flex; justify-content: center; min-height: 100vh; overflow-x: hidden;
+        }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        /* HIỆU ỨNG RƠI */
+        .snow-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        .snowflake { position: absolute; top: -10px; color: var(--primary-pink); user-select: none; pointer-events: none; animation: fall linear infinite; opacity: 0.8; }
+        @keyframes fall { to { transform: translateY(105vh) translateX(20px) rotate(360deg); } }
+
+        #loader-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-soft); display: flex; justify-content: center; align-items: center; z-index: 9999; transition: 0.6s; }
+        .loader-spinner { width: 40px; height: 40px; border: 4px solid #fff; border-top: 4px solid var(--primary-pink); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .loaded #loader-wrapper { opacity: 0; visibility: hidden; }
+
+        .container { width: 100%; max-width: 480px; padding: 25px; text-align: center; opacity: 0; transition: 0.8s; z-index: 10; margin-bottom: 50px; }
+        .loaded .container { opacity: 1; }
+
+        .header-links { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; }
+        .btn-back { text-decoration: none; color: var(--primary-pink); font-weight: 600; transition: 0.3s; }
+
+        .links-list { display: flex; flex-direction: column; gap: 15px; }
+        .link-item { 
+            background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            padding: 12px; border-radius: 20px; text-decoration: none; color: #4a4a4a; 
+            display: flex; align-items: center; box-shadow: 0 5px 15px rgba(0,0,0,0.03); 
+            border: 1px solid rgba(255,255,255,0.5); transition: 0.3s; position: relative;
+        }
+        .link-item:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--primary-pink); }
+        
+        .app-avatar { width: 55px; height: 55px; border-radius: 14px; object-fit: cover; margin-right: 15px; border: 2px solid #fff; background: #fff; }
+        .app-info { text-align: left; flex-grow: 1; }
+        .app-name { display: block; font-weight: 600; font-size: 0.95rem; color: #333; }
+        .app-desc { display: block; font-size: 0.75rem; color: #888; margin-top: 2px; }
+        .btn-download { background: var(--primary-pink); color: white; padding: 6px 12px; border-radius: 10px; font-size: 0.7rem; font-weight: 600; }
+
+        .badge { position: absolute; top: 0; right: 0; background: #ff4d6d; color: white; font-size: 0.6rem; padding: 2px 8px; border-bottom-left-radius: 10px; font-weight: 600; }
+
+        .music-control { position: fixed; bottom: 30px; left: 30px; z-index: 1000; }
+        .music-btn { width: 45px; height: 45px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--primary-pink); box-shadow: var(--shadow); border: 2px solid #fff; }
+        .music-btn.playing { animation: rotate 4s linear infinite; }
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div id="loader-wrapper"><div class="loader-spinner"></div></div>
+    <div class="snow-container" id="snowContainer"></div>
+
+    <audio id="bgMusic" loop preload="auto"><source src="1.mp3" type="audio/mpeg"></audio>
+    <div class="music-control"><div class="music-btn" id="musicBtn" onclick="toggleMusic()"><i class="fa-solid fa-music" id="musicIcon"></i></div></div>
+
+    <div class="container">
+        <div class="header-links">
+            <a href="index.html" class="btn-back"><i class="fa-solid fa-chevron-left"></i> Quay lại</a>
+            <h2 style="color: var(--primary-pink); font-size: 1.2rem; margin: 0;">KHO ỨNG DỤNG ✨</h2>
+            <div style="width: 50px;"></div>
+        </div>
+
+        <div class="links-list" style="margin-top: 20px;">
+            <!-- APP 1 -->
+            <a href="https://www.mediafire.com/file/0c19asxqi360r10/Delta_Vng_V2.702.632_Up.apk/file" target="_blank" class="link-item">
+                <div class="badge">HOT</div>
+                <img src="https://sf-static.upanhlaylink.com/img/image_20251224d16fc684451551344852ca5d01f9bb9a.jpg" class="app-avatar">
+                <div class="app-info">
+                    <span class="app-name">Delta VNG APK</span>
+                    <span class="app-desc">Exploit Roblox Mobile</span>
+                </div>
+                <div class="btn-download">Tải về</div>
+            </a>
+
+            <!-- APP 2 -->
+            <a href="https://snote.vip/notes/NZZ331" target="_blank" class="link-item">
+                <img src="https://sf-static.upanhlaylink.com/img/image_20251224ea35ad3fd519aa7023503ab05ae9e892.jpg" class="app-avatar">
+                <div class="app-info">
+                    <span class="app-name">Menu LQ iOS</span>
+                    <span class="app-desc">Mod Skin, Hack Map...</span>
+                </div>
+                <div class="btn-download">Tải về</div>
+            </a>
+
+            <!-- APP 3 (Đã sửa lỗi) -->
+            <a href="https://www.mediafire.com/file/zqupzk4un8hoxr4/Dương+Tuấn+AdminTipTip.imazingapp/file" target="_blank" class="link-item">
+                <div class="badge">NEW</div>
+                <img src="https://sf-static.upanhlaylink.com/img/image_20251225685a28ca59ab872e0bfad7a5ed51c398.jpg" class="app-avatar">
+                <div class="app-info">
+                    <span class="app-name">Hack FF Imazing</span>
+                    <span class="app-desc">Bản cài đặt cho iPhone/iPad</span>
+                </div>
+                <div class="btn-download">Tải về</div>
+            </a>
+
+            <!-- APP 4 -->
+            <a href="#" class="https://snote.vip/notes/Q449V9">
+                <img src="https://via.placeholder.com/100" class="https://sf-static.upanhlaylink.com/img/image_20251225685a28ca59ab872e0bfad7a5ed51c398.jpg">
+                <div class="app-info">
+                    <span class="FF MIGUL">App Số 4</span>
+                    <span class="MENU HACK FF ANTI BAN">Mô tả app...</span>
+                </div>
+                <div class="btn-download">Tải về</div>
+            </a>
+
+            <!-- APP 5 -->
+            <a href="#" class="link-item">
+                <img src="https://via.placeholder.com/100" class="app-avatar">
+                <div class="app-info">
+                    <span class="app-name">App Số 5</span>
+                    <span class="app-desc">Mô tả app...</span>
+                </div>
+                <div class="btn-download">Tải về</div>
+            </a>
+
+            <!-- APP 6 -->
+            <a href="#" class="link-item">
+                <img src="https://via.placeholder.com/100" class="app-avatar">
+                <div class="app-info">
+                    <span class="app-name">App Số 6</span>
+                    <span class="app-desc">Mô tả app...</span>
+                </div>
+                <div class="btn-download">Tải về</div>
+            </a>
+
+            <!-- APP 7 -->
+            <a href="#" class="link-item">
+                <img src="https://via.placeholder.com/100" class="app-avatar">
+                <div class="app-info">
+                    <span class="app-name">App Số 7</span>
+                    <span class="app-desc">Mô tả app...</span>
+                </div>
+                <div class="btn-download">Tải về</div>
+            </a>
+
+            <!-- APP 8 -->
+            <a href="#" class="link-item">
+                <img src="https://via.placeholder.com/100" class="app-avatar">
+                <div class="app-info">
+                    <span class="app-name">App Số 8</span>
+                    <span class="app-desc">Mô tả app...</span>
+                </div>
+                <div class="btn-download">Tải về</div>
+            </a>
+
+            <!-- APP 9 -->
+            <a href="#" class="link-item">
+                <img src="https://via.placeholder.com/100" class="app-avatar">
+                <div class="app-info">
+                    <span class="app-name">App Số 9</span>
+                    <span class="app-desc">Mô tả app...</span>
+                </div>
+                <div class="btn-download">Tải về</div>
+            </a>
+
+            <!-- APP 10 -->
+            <a href="#" class="link-item">
+                <img src="https://via.placeholder.com/100" class="app-avatar">
+                <div class="app-info">
+                    <span class="app-name">App Số 10</span>
+                    <span class="app-desc">Mô tả app...</span>
+                </div>
+                <div class="btn-download">Tải về</div>
+            </a>
+
+            <!-- APP 11 -->
+            <a href="#" class="link-item">
+                <img src="https://via.placeholder.com/100" class="app-avatar">
+                <div class="app-info">
+                    <span class="app-name">App Số 11</span>
+                    <span class="app-desc">Mô tả app...</span>
+                </div>
+                <div class="btn-download">Tải về</div>
+            </a>
+
+            <!-- APP 12 -->
+            <a href="#" class="link-item">
+                <img src="https://via.placeholder.com/100" class="app-avatar">
+                <div class="app-info">
+                    <span class="app-name">App Số 12</span>
+                    <span class="app-desc">Mô tả app...</span>
+                </div>
+                <div class="btn-download">Tải về</div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const music = document.getElementById("bgMusic");
+        const mBtn = document.getElementById("musicBtn");
+        const mIcon = document.getElementById("musicIcon");
+
+        function playMusic() {
+            music.play().then(() => { 
+                mBtn.classList.add("playing"); 
+                mIcon.classList.replace("fa-music", "fa-pause"); 
+            }).catch(()=>{});
+        }
+        
+        document.addEventListener('click', playMusic, { once: true });
+        document.addEventListener('touchstart', playMusic, { once: true });
+        window.addEventListener('load', () => { 
+            setTimeout(() => document.body.classList.add('loaded'), 800); 
+            playMusic(); 
+        });
+
+        function toggleMusic() {
+            if (music.paused) { 
+                music.play(); 
+                mBtn.classList.add("playing"); 
+                mIcon.classList.replace("fa-music", "fa-pause"); 
+            }
+            else { 
+                music.pause(); 
+                mBtn.classList.remove("playing"); 
+                mIcon.classList.replace("fa-pause", "fa-music"); 
+            }
+        }
+
+        const particles = ['🌸', '❄️', '✨'];
+        function createParticle() {
+            const p = document.createElement('div'); p.className = 'snowflake';
+            p.innerHTML = particles[Math.floor(Math.random() * particles.length)];
+            p.style.left = Math.random() * 100 + 'vw'; p.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.getElementById('snowContainer').appendChild(p);
+            setTimeout(() => p.remove(), 5000);
+        }
+        setInterval(createParticle, 300);
+        document.addEventListener('click', (e) => {
+            const h = document.createElement('div'); h.innerHTML = '❤️'; h.style.position = 'fixed';
+            h.style.left = e.clientX + 'px'; h.style.top = e.clientY + 'px'; h.style.transition = '1s';
+            h.style.pointerEvents = 'none'; document.body.appendChild(h);
+            setTimeout(() => { h.style.transform = 'translateY(-100px)'; h.style.opacity = '0'; }, 50);
+            setTimeout(() => h.remove(), 1000);
+        });
+    </script>
+</body>
+</html>
             <a href="#" class="link-item"><img src="https://via.placeholder.com/100" class="app-avatar"><div class="app-info"><span class="app-name">App Số 8</span><span class="app-desc">Mô tả app...</span></div><div class="btn-download">Tải về</div></a>
             <a href="#" class="link-item"><img src="https://via.placeholder.com/100" class="app-avatar"><div class="app-info"><span class="app-name">App Số 9</span><span class="app-desc">Mô tả app...</span></div><div class="btn-download">Tải về</div></a>
             <a href="#" class="link-item"><img src="https://via.placeholder.com/100" class="app-avatar"><div class="app-info"><span class="app-name">App Số 10</span><span class="app-desc">Mô tả app...</span></div><div class="btn-download">Tải về</div></a>
