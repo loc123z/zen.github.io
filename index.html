@@ -1,168 +1,390 @@
+<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lộc (zZz) - Profile</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>SHOP BÁN ACC - Uy Tín, Giá Rẻ</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --primary-pink: #ff8fa3; --shadow: 0 10px 30px rgba(255, 143, 163, 0.2); }
-        body {
-            margin: 0; padding: 0; font-family: 'Lexend', sans-serif;
-            background: linear-gradient(45deg, #fff9fa, #ffe4e9, #fff9fa, #ffd1dc);
-            background-size: 400% 400%; animation: gradientBG 15s ease infinite;
-            display: flex; justify-content: center; align-items: center; min-height: 100vh;
-            overflow-x: hidden;
+        :root {
+            --primary-color: #4f46e5;
+            --secondary-color: #10b981;
+            --dark-color: #1f2937;
         }
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
-        .snow-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
-        .snowflake { position: absolute; top: -10px; color: var(--primary-pink); user-select: none; pointer-events: none; animation: fall linear infinite; opacity: 0.8; }
-        @keyframes fall { to { transform: translateY(105vh) translateX(20px) rotate(360deg); } }
-
-        #loader-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff9fa; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 999999; transition: 0.8s; }
-        .loader-spinner { width: 50px; height: 50px; border: 5px solid #fff; border-top: 5px solid var(--primary-pink); border-radius: 50%; animation: spin 1s linear infinite; }
-        .loaded #loader-wrapper { opacity: 0; visibility: hidden; }
-
-        .container {
-            width: 100%; max-width: 400px; padding: 30px; text-align: center;
-            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 40px; box-shadow: var(--shadow);
-            opacity: 0; transform: translateY(20px); transition: 1s; z-index: 10;
+        
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
         }
-        .loaded .container { opacity: 1; transform: translateY(0); }
-
-        .profile-img { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 5px solid #fff; box-shadow: var(--shadow); animation: floating 3s ease-in-out infinite; }
-        @keyframes floating { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         
-        h1 { background: linear-gradient(to right, #ff8fa3, #ff4d6d); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.8rem; margin: 15px 0 5px; }
-        
-        .view-stat {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 8px 20px; border-radius: 50px; margin: 10px 0;
-            font-size: 0.9rem; color: #ff4d6d; font-weight: 600;
-            border: 1px solid #fff; box-shadow: 0 4px 15px rgba(255, 143, 163, 0.1);
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 0;
         }
-
-        .links-wrapper { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
-        .link-card { 
-            background: rgba(255, 255, 255, 0.7); padding: 16px; border-radius: 20px; 
-            text-decoration: none; color: #4a4a4a; font-weight: 600; 
-            display: flex; align-items: center; justify-content: center; 
-            border: 1px solid #fff; transition: 0.3s; cursor: pointer;
+        
+        .product-card {
+            transition: transform 0.3s;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
         }
-        .link-card:hover { transform: scale(1.03); border-color: var(--primary-pink); background: #fff; }
-        .link-card i { font-size: 1.2rem; margin-right: 12px; }
         
-        .fa-facebook { color: #1877F2; }
-        .fa-comment-dots { color: #0068ff; }
-        .fa-download { color: #ff8fa3; }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
         
-        .btn-donate { background: var(--primary-pink) !important; color: white !important; }
-
-        .music-control { position: fixed; bottom: 30px; left: 30px; z-index: 1000; }
-        .music-btn { width: 50px; height: 50px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--primary-pink); box-shadow: var(--shadow); border: 2px solid #fff; }
-        .music-btn.playing { animation: rotate 4s linear infinite; }
-        @keyframes rotate { 100% { transform: rotate(360deg); } }
+        .product-img {
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .price {
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .old-price {
+            text-decoration: line-through;
+            color: #9ca3af;
+        }
+        
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--secondary-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+        }
+        
+        .category-filter {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+        
+        .category-item {
+            padding: 5px 15px;
+            margin: 0 5px;
+            border: 2px solid #e5e7eb;
+            border-radius: 20px;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        
+        .category-item.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .buy-button {
+            background: var(--secondary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            width: 100%;
+            font-weight: bold;
+        }
+        
+        footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .payment-methods img {
+            height: 30px;
+            margin: 0 5px;
+        }
     </style>
 </head>
 <body>
-    <div id="loader-wrapper"><div class="loader-spinner"></div><p style="color: var(--primary-pink); margin-top: 10px;">Đang tải dữ liệu...</p></div>
-    <div class="snow-container" id="snowContainer"></div>
-
-    <audio id="bgMusic" loop preload="auto"><source src="1.mp3" type="audio/mpeg"></audio>
-    <div class="music-control"><div class="music-btn" id="musicBtn" onclick="toggleMusic()"><i class="fa-solid fa-music" id="musicIcon"></i></div></div>
-
-    <div class="container">
-        <div class="profile">
-            <img src="https://sf-static.upanhlaylink.com/img/image_2025122489239905cb64cbfd55b5ac0a11711f34.jpg" class="profile-img">
-            <h1>Lộc (zZz) ✨</h1>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-store me-2"></i>ACC.SHOP
+            </a>
             
-            <div class="view-stat">
-                <i class="fa-solid fa-eye"></i>
-                <span>Tổng mắt xem: <b id="click-count">0</b></span>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/products">Sản phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">Giới thiệu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">Liên hệ</a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex">
+                    <a href="/cart" class="btn btn-outline-primary me-2">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="badge bg-danger cart-count">0</span>
+                    </a>
+                    <a href="/admin" class="btn btn-primary">Admin</a>
+                </div>
             </div>
         </div>
+    </nav>
 
-        <div class="links-wrapper">
-            <a href="https://www.facebook.com/PhamloczZz/" target="_blank" onclick="trackClick(event, this.href)" class="link-card">
-                <i class="fab fa-facebook"></i> Facebook cá nhân
-            </a>
+    <!-- Hero Section -->
+    <section class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-4 mb-4">BÁN ACCOUNT UY TÍN - GIÁ RẺ NHẤT</h1>
+            <p class="lead mb-4">Hơn 10.000+ account đã được bán với độ tin cậy cao</p>
+            <a href="#products" class="btn btn-light btn-lg">MUA NGAY</a>
+        </div>
+    </section>
 
-            <a href="https://zalo.me/0708770813" target="_blank" onclick="trackClick(event, this.href)" class="link-card">
-                <i class="fa-solid fa-comment-dots"></i> Nhắn tin Zalo
-            </a>
+    <!-- Featured Products -->
+    <section class="py-5" id="products">
+        <div class="container">
+            <h2 class="text-center mb-5">SẢN PHẨM NỔI BẬT</h2>
+            
+            <!-- Category Filter -->
+            <div class="category-filter mb-4">
+                <div class="category-item active">Tất cả</div>
+                <div class="category-item">Netflix</div>
+                <div class="category-item">Spotify</div>
+                <div class="category-item">YouTube Premium</div>
+                <div class="category-item">Canva Pro</div>
+                <div class="category-item">ChatGPT Plus</div>
+                <div class="category-item">Game</div>
+            </div>
+            
+            <!-- Product Grid -->
+            <div class="row" id="product-grid">
+                <!-- Products will be loaded here via JavaScript -->
+            </div>
+        </div>
+    </section>
 
-            <a href="links.html" onclick="trackClick(event, this.href)" class="link-card">
-                <i class="fa-solid fa-download"></i> Kho Tool / Hack
-            </a>
-
-            <!-- Sửa thành Donate -->
-            <a href="bank.html" onclick="trackClick(event, this.href)" class="link-card btn-donate">
-                <i class="fa-solid fa-heart"></i> Donate cho Lộc
-            </a>
+    <!-- Quick Buy Modal -->
+    <div class="modal fade" id="quickBuyModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Mua Nhanh</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="orderForm">
+                        <input type="hidden" id="productId">
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Email nhận account</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Số điện thoại</label>
+                            <input type="tel" class="form-control" id="phone" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Số lượng</label>
+                            <input type="number" class="form-control" id="quantity" value="1" min="1">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Phương thức thanh toán</label>
+                            <select class="form-select" id="paymentMethod">
+                                <option value="momo">Momo</option>
+                                <option value="zalopay">ZaloPay</option>
+                                <option value="bank">Chuyển khoản</option>
+                            </select>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <p class="mb-0">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Account sẽ được gửi ngay sau khi thanh toán thành công
+                            </p>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="fas fa-lock me-2"></i>TIẾN HÀNH THANH TOÁN
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>ACC.SHOP</h5>
+                    <p>Chuyên cung cấp các loại account premium uy tín, chất lượng với giá tốt nhất thị trường.</p>
+                    <div class="payment-methods">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1250/1250181.png" alt="Momo">
+                        <img src="https://cdn-icons-png.flaticon.com/512/732/732221.png" alt="ZaloPay">
+                        <img src="https://cdn-icons-png.flaticon.com/512/196/196578.png" alt="Bank">
+                    </div>
+                </div>
+                
+                <div class="col-md-2">
+                    <h5>Danh mục</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Netflix</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Spotify</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">YouTube</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Game</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-3">
+                    <h5>Liên hệ</h5>
+                    <p><i class="fas fa-envelope me-2"></i> support@accshop.com</p>
+                    <p><i class="fas fa-phone me-2"></i> 0987.654.321</p>
+                    <p><i class="fas fa-clock me-2"></i> 24/7 Support</p>
+                </div>
+                
+                <div class="col-md-3">
+                    <h5>Theo dõi chúng tôi</h5>
+                    <div class="social-links">
+                        <a href="#" class="text-light me-3"><i class="fab fa-facebook fa-2x"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-telegram fa-2x"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-zalo fa-2x"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="my-4" style="background-color: rgba(255,255,255,0.1);">
+            
+            <div class="text-center">
+                <p class="mb-0">© 2023 ACC.SHOP. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const API_URL = 'https://api.counterapi.dev/v1/loc_zzz_click_stats/main';
-
-        async function loadClicks() {
-            try {
-                const response = await fetch(API_URL);
-                const data = await response.json();
-                if(data.count) document.getElementById('click-count').innerText = data.count.toLocaleString();
-            } catch (e) {}
-        }
-
-        async function trackClick(event, url) {
-            fetch(API_URL + '/increment');
-            if (!url.includes('facebook.com') && !url.includes('zalo.me')) {
-                event.preventDefault();
-                setTimeout(() => { window.location.href = url; }, 300);
+        // Product data (from API)
+        const products = [
+            {
+                id: 1,
+                name: "Netflix Premium 1 Tháng",
+                price: 45000,
+                oldPrice: 60000,
+                category: "Netflix",
+                image: "https://via.placeholder.com/300x200/667eea/ffffff?text=Netflix",
+                stock: 50
+            },
+            {
+                id: 2,
+                name: "Spotify Premium 6 Tháng",
+                price: 120000,
+                oldPrice: 150000,
+                category: "Spotify",
+                image: "https://via.placeholder.com/300x200/10b981/ffffff?text=Spotify",
+                stock: 30
             }
+        ];
+
+        // Initialize product grid
+        function loadProducts() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+            
+            products.forEach(product => {
+                const discount = product.oldPrice ? 
+                    Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100) : 0;
+                
+                const productHtml = `
+                    <div class="col-md-3 mb-4">
+                        <div class="product-card h-100">
+                            ${discount > 0 ? `<div class="discount-badge">-${discount}%</div>` : ''}
+                            <img src="${product.image}" class="product-img w-100">
+                            <div class="p-3">
+                                <h6 class="mb-2">${product.name}</h6>
+                                <div class="mb-2">
+                                    <span class="price">${formatPrice(product.price)}đ</span>
+                                    ${product.oldPrice ? 
+                                        `<span class="old-price ms-2">${formatPrice(product.oldPrice)}đ</span>` : 
+                                        ''}
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="badge bg-secondary">${product.category}</span>
+                                    <span>Kho: ${product.stock}</span>
+                                </div>
+                                <button class="buy-button mt-3" onclick="quickBuy(${product.id})">
+                                    <i class="fas fa-shopping-cart me-2"></i>MUA NGAY
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                grid.innerHTML += productHtml;
+            });
         }
 
-        loadClicks();
-
-        const music = document.getElementById("bgMusic");
-        const mBtn = document.getElementById("musicBtn");
-        const mIcon = document.getElementById("musicIcon");
-
-        function autoPlay() {
-            music.play().then(() => {
-                mBtn.classList.add("playing");
-                mIcon.classList.replace("fa-music", "fa-pause");
-            }).catch(() => {});
+        function formatPrice(price) {
+            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         }
 
-        document.addEventListener('click', autoPlay, { once: true });
-        window.addEventListener('load', () => {
-            setTimeout(() => document.body.classList.add('loaded'), 1000);
+        function quickBuy(productId) {
+            document.getElementById('productId').value = productId;
+            const modal = new bootstrap.Modal(document.getElementById('quickBuyModal'));
+            modal.show();
+        }
+
+        // Order form submission
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const orderData = {
+                productId: document.getElementById('productId').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                quantity: document.getElementById('quantity').value,
+                paymentMethod: document.getElementById('paymentMethod').value
+            };
+            
+            // Send to backend API
+            fetch('/api/create-order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(orderData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    // Redirect to payment
+                    if(orderData.paymentMethod === 'momo') {
+                        window.location.href = data.payment_url;
+                    } else {
+                        alert('Đặt hàng thành công! Vui lòng chuyển khoản theo thông tin sau...');
+                    }
+                }
+            });
         });
 
-        function toggleMusic() {
-            if (music.paused) { music.play(); mBtn.classList.add("playing"); mIcon.classList.replace("fa-music", "fa-pause");
-            } else { music.pause(); mBtn.classList.remove("playing"); mIcon.classList.replace("fa-pause", "fa-music"); }
-        }
-
-        setInterval(() => {
-            const p = document.createElement('div'); p.className = 'snowflake';
-            p.innerHTML = ['🌸', '❄️', '✨'][Math.floor(Math.random() * 3)];
-            p.style.left = Math.random() * 100 + 'vw'; p.style.animationDuration = Math.random() * 3 + 2 + 's';
-            document.getElementById('snowContainer').appendChild(p);
-            setTimeout(() => p.remove(), 5000);
-        }, 300);
-
-        document.addEventListener('click', function(e) {
-            const h = document.createElement('div'); h.innerHTML = '❤️'; h.style.position = 'fixed';
-            h.style.left = e.clientX + 'px'; h.style.top = e.clientY + 'px'; h.style.transition = '1s';
-            h.style.pointerEvents = 'none'; document.body.appendChild(h);
-            setTimeout(() => { h.style.transform = 'translateY(-100px)'; h.style.opacity = '0'; }, 50);
-            setTimeout(() => h.remove(), 1000);
-        });
+        // Load products on page load
+        document.addEventListener('DOMContentLoaded', loadProducts);
     </script>
 </body>
 </html>
